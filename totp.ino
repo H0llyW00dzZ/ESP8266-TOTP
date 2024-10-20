@@ -22,7 +22,9 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000);
 
 // Base32 encoded secret key for TOTP
 const char* base32Secret = "BASE32EncodedSecret"; // Replace with your Base32 encoded secret
-uint8_t decodedSecret[10]; // Adjust size based on your secret length
+uint8_t decodedSecret[20]; // Adjust size based on your secret length
+
+TOTP totp(decodedSecret, sizeof(decodedSecret)); // Instantiate TOTP object
 
 void setup() {
   Serial.begin(115200);
@@ -51,7 +53,6 @@ void loop() {
   unsigned long epochTime = timeClient.getEpochTime();
 
   // Generate TOTP
-  TOTP totp(decodedSecret, sizeof(decodedSecret));
   String otp = totp.getCode(epochTime);
   Serial.println("Current OTP: " + otp);
 
