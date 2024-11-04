@@ -27,6 +27,8 @@ const char* base32Secret = "BASE32EncodedSecret"; // Consider secure storage
 uint8_t decodedSecret[20]; // Adjust size based on your secret length
 
 // OLED setup
+//
+// Note: Don't forget Adjust screen w & h based on needed.
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
