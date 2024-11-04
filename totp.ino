@@ -37,7 +37,7 @@ TOTP totp(decodedSecret, sizeof(decodedSecret)); // Instantiate TOTP object
 
 void setup() {
   Serial.begin(115200);
-  
+
   // Initialize OLED
   // Note: Ensure the I2C address (0x3C) is correct for your OLED. Some displays use different addresses like 0x3D
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
@@ -56,7 +56,7 @@ void setup() {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
-  
+
   // Exit setup if unable to connect
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Failed to connect to WiFi. Check your credentials.");
@@ -68,7 +68,7 @@ void setup() {
     display.display();
     return;
   }
-  
+
   Serial.println("Connected to WiFi");
 
   // Initialize NTP client
@@ -98,7 +98,7 @@ void loop() {
   if (millis() - lastOTPTimestamp >= 30000) {
     String otp = totp.getCode(epochTime);
     Serial.println("Current OTP: " + otp);
-    
+
     // Display OTP on OLED
     display.clearDisplay();
     display.setTextSize(2);
