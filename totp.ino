@@ -61,5 +61,7 @@ void loop() {
     lastOTPTimestamp = millis();
   }
 
-  // Other non-blocking code can be added here
+  // Other non-blocking code can be added here.
+  // For example, you might want to use this TOTP for opening your front door house.
+
 }
