@@ -13,15 +13,15 @@
 #include <Base32-Decode.h>
 
 // Wi-Fi credentials
-const char* ssid = "your_SSID";
-const char* password = "your_PASSWORD";
+const char* ssid = "your_SSID"; // Use secure methods to store credentials
+const char* password = "your_PASSWORD"; // Use secure methods to store credentials
 
 // NTP client setup
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000);
 
 // Base32 encoded secret key for TOTP
-const char* base32Secret = "BASE32EncodedSecret"; // Replace with your Base32 encoded secret
+const char* base32Secret = "BASE32EncodedSecret"; // Consider secure storage
 uint8_t decodedSecret[20]; // Adjust size based on your secret length
 
 TOTP totp(decodedSecret, sizeof(decodedSecret)); // Instantiate TOTP object
@@ -48,14 +48,18 @@ void setup() {
   }
 }
 
+unsigned long lastOTPTimestamp = 0;
+
 void loop() {
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();
 
-  // Generate TOTP
-  String otp = totp.getCode(epochTime);
-  Serial.println("Current OTP: " + otp);
+  // Generate TOTP every 30 seconds
+  if (millis() - lastOTPTimestamp >= 30000) {
+    String otp = totp.getCode(epochTime);
+    Serial.println("Current OTP: " + otp);
+    lastOTPTimestamp = millis();
+  }
 
-  // Wait for 30 seconds before generating the next OTP
-  delay(30000);
+  // Other non-blocking code can be added here
 }
